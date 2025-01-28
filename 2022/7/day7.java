@@ -1,4 +1,5 @@
 // day 7 version 1 (this one) not finished
+// this version attempts it with stack
 
 import java.io.IOException;
 import java.nio.file.Files;
