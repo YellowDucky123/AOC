@@ -48,18 +48,16 @@ public class day9 {
                     move[0] = -1;
                     move[1] = 0;
                 }
-
+                
                 // move said times
                 for(int i = 0; i < amountOfMovement; i++) {
                     // move the nodes in pairs of two
                     // e.g. head, and node1 - node1 and node2 - etc. 'till tail
-                    print(nodePositions);
+                    int[] tail = new int[2];
                     for(int k = 0; k < 9; k++) {
-                        int[] tail = updatePosition(nodePositions[k], nodePositions[k + 1], move, k);
-                        if(k == 8) {
-                            visited.add(Arrays.asList(tail[0], tail[1]));
-                        }
+                        tail = updatePosition(nodePositions[k], nodePositions[k + 1], move, k);
                     }
+                    visited.add(Arrays.asList(tail[0], tail[1]));
                 }  
             }
             // System.out.println(visited);
@@ -91,24 +89,48 @@ public class day9 {
             return tailPosition;
         }
 
-        if(headPosition[0] == tailPosition[0] || headPosition[1] == tailPosition[1]) {  // if they're not diagonal
-            tailPosition[0] += movement[0];
-            tailPosition[1] += movement[1];
-            return tailPosition;
+        int rowDiff = headPosition[0] - tailPosition[0];
+        int colDiff = headPosition[1] - tailPosition[1];
+        if(headPosition[0] == tailPosition[0]) {
+            if(colDiff > 0) {
+                tailPosition[1] += 1;
+            }
+            else {
+                tailPosition[1] -= 1;
+            }
         }
+        else if(headPosition[1] == tailPosition[1]) {
+            if(rowDiff > 0) {
+                tailPosition[0] += 1;
+            }
+            else {
+                tailPosition[0] -= 1;
+            }
+        }
+        else if(Math.abs(rowDiff) > 1) {
+            if(rowDiff > 0) {
+                tailPosition[0] += 1;
+            }
+            else {
+                tailPosition[0] -= 1;
+            }
 
-        if(Math.abs(headPosition[0] - tailPosition[0]) > 1) {
-            tailPosition[0] += movement[0];
-            if(headPosition[1] - tailPosition[1] < 0) {
+            if(colDiff < 0) {
                 tailPosition[1] -= 1;
             }
             else {
                 tailPosition[1] += 1;
             }
         }
-        else if(Math.abs(headPosition[1] - tailPosition[1]) > 1) {
-            tailPosition[1] += movement[1];
-            if(headPosition[0] - tailPosition[0] < 0) {
+        else if(Math.abs(colDiff) > 1) {
+            if(colDiff > 0) {
+                tailPosition[1] += 1;
+            }
+            else {
+                tailPosition[1] -= 1;
+            }
+
+            if(rowDiff < 0) {
                 tailPosition[0] -= 1;
             }
             else {
